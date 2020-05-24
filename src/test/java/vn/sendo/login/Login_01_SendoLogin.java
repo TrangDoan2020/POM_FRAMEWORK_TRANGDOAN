@@ -1,6 +1,7 @@
 package vn.sendo.login;
 
-import commons.AbstractPage;
+import commons.AbstractTest;
+import commons.GlobalConstants;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
@@ -8,126 +9,129 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import pageObjects.LoginPageObject;
 
-public class Login_01_SendoLogin extends AbstractPage {
+public class Login_01_SendoLogin extends AbstractTest {
     WebDriver driver;
+
+    LoginPageObject login = new LoginPageObject();
+
+    String email01 = "trangdoan@mailinator.com";
+    String password01 ="";
+
+    String email02 = "trangdoan@mailinator.com";
+    String password02 ="12345";
+
+    String email03 = "trangdoan@mailinator.com";
+    String password03 ="12345678abc";
+
+    String email04 = "trangdoan@mailinator.com";
+    String password04 ="12345678";
+
     Wait<WebDriver> wait;
 
     @Parameters("browser")
     @BeforeMethod
     public void beforeMethod(String browserValue){
-        // Launch browser
         driver = getBrowserDriver(browserValue);
 
-        //Open maximize window
         maximizeWindow(driver);
 
-        // Pre-condition: Vào trang sendo.vn
-        openUrl(driver,"https://sendo.vn");
+        openUrl(driver, GlobalConstants.url);
     }
 
-    @Parameters({"email_1", "password_1"})
     @Test
-    public void TC_Login_01_EnterNoPassword(String emailValue, String passwordValue){
-        // Step 1: Tắt popup "Ở nhà là nhất - 10K
-        closePopup(driver,"//div[@class='modal-content']/button[starts-with(@class,'close')]");
+    public void TC_Login_01_EnterNoPassword(){
+        login.closePopup01(driver);
 
-        // Step 2: Tắt popup "Bật thông báo để không bỏ lỡ..."
-        closePopup(driver,"//button[starts-with(@class,'closeBtn')]");
+        login.closePopup02(driver);
 
-        // Step 3: Click Đăng nhập
-        clickElement(driver,"//button[@id='login']");
+        login.clickLogin01(driver);
 
-        // Step 4: Click link "Đã có SendoID"
-        clickElement(driver,"//span[text()='Đã có SendoID']");
+        login.clickHaveSendoID(driver);
 
-        // Step 5: Nhập textbox Email
-        setText(driver,"//input[@name='username']", emailValue);
+        login.enterEmail(driver,email01);
 
-        // Step 6: Nhập text Pass
-        setText(driver,"//input[@name='password']", passwordValue);
+        login.enterPassword(driver,password01);
 
-        // Step 7: Click button Đăng nhập
-        clickElement(driver, "//button[starts-with(@class,'btnLogin')]");
+        login.clickLogin02(driver);
 
-        // Step 8: Get error text
-        String actualResult = getTextElement(driver, "//p[starts-with(@class,'error')]");
+        String actualResult = login.verifyErrorMessage(driver);
         System.out.println(actualResult);
 
-        // Verify message
         String expectedResult = "Vui lòng nhập mật khẩu đăng nhập.";
         Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
     }
 
-    @Parameters({"email_2" , "password_2"})
     @Test
-    public void TC_Login_02_EnterPasswordLessThan6Chars(String emailValue, String passwordValue){
-        // Step 1: Tắt popup "Ở nhà là nhất - 10K
-        closePopup(driver,"//div[@class='modal-content']/button[starts-with(@class,'close')]");
+    public void TC_Login_02_EnterPasswordLessThan6Chars(){
+        login.closePopup01(driver);
 
-        // Step 2: Tắt popup "Bật thông báo để không bỏ lỡ..."
-        closePopup(driver, "//button[starts-with(@class,'closeBtn')]");
+        login.closePopup02(driver);
 
-        // Step 3: Click Đăng nhập
-        clickElement(driver, "//button[@id='login']");
+        login.clickLogin01(driver);
 
-        // Step 4: Click link "Đã có SendoID"
-        clickElement(driver,"//span[text()='Đã có SendoID']");
+        login.clickHaveSendoID(driver);
 
-        // Step 5: Nhập textbox Email
-        setText(driver,"//input[@name='username']", emailValue);
+        login.enterEmail(driver,email02);
 
-        // Step 6: Nhập text Pass
-        setText(driver,"//input[@name='password']", passwordValue);
+        login.enterPassword(driver,password02);
 
-        // Step 7: Click button Đăng nhập
-        clickElement(driver, "//button[starts-with(@class,'btnLogin')]");
+        login.clickLogin02(driver);
 
-        // Step 8: Get error text
-        String actualResult = getTextElement(driver, "//p[starts-with(@class,'error')]");
+        String actualResult = login.verifyErrorMessage(driver);
         System.out.println(actualResult);
 
-        // Verify message
         String expectedResult = "Độ dài mật khẩu từ 6 đến 32 ký tự, vui lòng nhập lại.";
         Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
     }
 
-    @Parameters({"email_3" , "password_3"})
     @Test
-    public void TC_Login_03_EnterWrongPassword(String emailValue, String passwordValue) {
-        // Step 1: Tắt popup "Ở nhà là nhất - 10K
-        closePopup(driver,"//div[@class='modal-content']/button[starts-with(@class,'close')]");
+    public void TC_Login_03_EnterWrongPassword() {
+        login.closePopup01(driver);
 
-        // Step 2: Tắt popup "Bật thông báo để không bỏ lỡ..."
-        closePopup(driver,"//button[starts-with(@class,'closeBtn')]");
+        login.closePopup02(driver);
 
-        // Step 3: Click Đăng nhập
-        clickElement(driver,"//button[@id='login']");
+        login.clickLogin01(driver);
 
-        // Step 4: Click link "Đã có SendoID"
-        clickElement(driver,"//span[text()='Đã có SendoID']");
+        login.clickHaveSendoID(driver);
 
-        // Step 5: Nhập textbox Email
-        setText(driver,"//input[@name='username']", emailValue);
+        login.enterEmail(driver,email03);
 
-        // Step 6: Nhập text Pass
-        setText(driver,"//input[@name='password']", passwordValue);
+        login.enterPassword(driver,password03);
 
-        // Step 7: Click button Đăng nhập
-        clickElement(driver, "//button[starts-with(@class,'btnLogin')]");
+        login.clickLogin02(driver);
 
-        // Step 8: Get error text
-        String actualResult = getTextElement(driver, "//p[starts-with(@class,'error')]");
+        String actualResult = login.verifyErrorMessage(driver);
         System.out.println(actualResult);
 
-        // Verify message
         String expectedResult = "Sai mật khẩu hoặc tài khoản đăng nhập. Vui lòng nhập lại.";
         Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
     }
 
+    @Test
+    public void TC_Login_04_EnterValidPassword() {
+        login.closePopup01(driver);
+
+        login.closePopup02(driver);
+
+        login.clickLogin01(driver);
+
+        login.clickHaveSendoID(driver);
+
+        login.enterEmail(driver,email04);
+
+        login.enterPassword(driver,password04);
+
+        login.clickLogin02(driver);
+
+        boolean result = login.verifyUserMenu(driver);
+
+        Assert.assertTrue(result);
+    }
+
     @AfterMethod
     public void afterMethod(){
-        // Post-condition: Đóng trình duyệt
         closeBrowser(driver);
     }
 }

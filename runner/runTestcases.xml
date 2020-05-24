@@ -1,12 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name = "Selenium Webdriver API">
-    <parameter name="email_1" value="trangdoan@mailinator.com"/>
-    <parameter name="password_1" value=""/>
-    <parameter name="email_2" value="trangdoan@mailinator.com"/>
-    <parameter name="password_2" value="12345"/>
-    <parameter name="email_3" value="trangdoan@mailinator.com"/>
-    <parameter name="password_3" value="12345678abc"/>
 
     <test name ="Run Login Chrome">
         <parameter name="browser" value="chrome"/>

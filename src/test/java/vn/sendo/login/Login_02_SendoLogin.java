@@ -7,25 +7,26 @@ import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pageObjects.LoginPageObject;
+import utils.ExcelUtils;
 import utils.PropertiesUtils;
 
-public class Login_01_SendoLogin extends AbstractTest {
+public class Login_02_SendoLogin extends AbstractTest {
     WebDriver driver;
 
     LoginPageObject loginPage;
 
-    String email01 = "trangdoan@mailinator.com";
-    String password01 ="";
-    //String expectedResult01 = "Vui lòng nhập mật khẩu đăng nhập.";
-
-    String email02 = "trangdoan@mailinator.com";
-    String password02 ="12345";
-    //String expectedResult02 = "Độ dài mật khẩu từ 6 đến 32 ký tự, vui lòng nhập lại.";
-
-    String email03 = "trangdoan@mailinator.com";
-    String password03 ="12345678abc";
-    //String expectedResult03 = "Sai mật khẩu hoặc tài khoản đăng nhập. Vui lòng nhập lại.";
-
+//    String email01 = "trangdoan@mailinator.com";
+//    String password01 ="";
+//    //String expectedResult01 = "Vui lòng nhập mật khẩu đăng nhập.";
+//
+//    String email02 = "trangdoan@mailinator.com";
+//    String password02 ="12345";
+//    //String expectedResult02 = "Độ dài mật khẩu từ 6 đến 32 ký tự, vui lòng nhập lại.";
+//
+//    String email03 = "trangdoan@mailinator.com";
+//    String password03 ="12345678abc";
+//    //String expectedResult03 = "Sai mật khẩu hoặc tài khoản đăng nhập. Vui lòng nhập lại.";
+//
     String email04 = "trangdoan@mailinator.com";
     String password04 ="12345678";
 
@@ -50,71 +51,32 @@ public class Login_01_SendoLogin extends AbstractTest {
         loginPage.closeWhitePopup();
     }
 
-    @Test
-    public void TC_Login_01_EnterNoPassword(){
+    @DataProvider
+    public Object[][] invalidAccountData(){
+        return ExcelUtils.readExcelValues("TC_InvalidAccounts");
+    }
 
+    @Test(dataProvider = "invalidAccountData")
+    public void TC_InvalidAccounts(String email, String password, String message) {
         loginPage.clickLoginButtonOnTopBar();
 
         loginPage.clickHaveSendoIDLinkOnLoginPopup();
 
-        loginPage.enterEmailOnLoginPopup(email01);
+        loginPage.enterEmailOnLoginPopup(email);
 
-        loginPage.enterPasswordOnLoginPopup(password01);
+        loginPage.enterPasswordOnLoginPopup(password);
 
         loginPage.clickLoginButtonOnLoginPopup();
 
         String actualResult = loginPage.getErrorMessage();
         System.out.println(actualResult);
-        String expectedResult = PropertiesUtils.readPropertiesValue("EMPTY_PASSWORD_ERROR_MESSAGE");
+        String expectedResult = PropertiesUtils.readPropertiesValue(message);
 
         Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
 
         loginPage.quitLoginPopup();
     }
 
-    @Test
-    public void TC_Login_02_EnterPasswordLessThan6Chars(){
-
-        loginPage.clickLoginButtonOnTopBar();
-
-        loginPage.clickHaveSendoIDLinkOnLoginPopup();
-
-        loginPage.enterEmailOnLoginPopup(email02);
-
-        loginPage.enterPasswordOnLoginPopup(password02);
-
-        loginPage.clickLoginButtonOnLoginPopup();
-
-        String actualResult = loginPage.getErrorMessage();
-        System.out.println(actualResult);
-        String expectedResult = PropertiesUtils.readPropertiesValue("INVALID_LENGTH_PASSWORD_ERROR_MESSAGE");
-
-        Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
-
-        loginPage.quitLoginPopup();
-    }
-
-    @Test
-    public void TC_Login_03_EnterWrongPassword() {
-
-        loginPage.clickLoginButtonOnTopBar();
-
-        loginPage.clickHaveSendoIDLinkOnLoginPopup();
-
-        loginPage.enterEmailOnLoginPopup(email03);
-
-        loginPage.enterPasswordOnLoginPopup(password03);
-
-        loginPage.clickLoginButtonOnLoginPopup();
-
-        String actualResult = loginPage.getErrorMessage();
-        System.out.println(actualResult);
-        String expectedResult = PropertiesUtils.readPropertiesValue("WRONG_PASSWORD_ERROR_MESSAGE");
-
-        Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
-
-        loginPage.quitLoginPopup();
-    }
 
     @Test
     public void TC_Login_04_LoginSuccessWithEmail() {
@@ -138,7 +100,7 @@ public class Login_01_SendoLogin extends AbstractTest {
         loginPage.clickQuitOnMenu();
     }
 
-    @Test
+   @Test
     public void TC_Login_05_LoginSuccessWithPhoneNumber() {
 
         loginPage.clickLoginButtonOnTopBar();

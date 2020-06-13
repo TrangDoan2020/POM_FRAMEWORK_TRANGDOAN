@@ -22,7 +22,7 @@ public class ExcelUtils {
             object = new Object[totalRows-1][totalCols];
             for(int i=1; i<totalRows; i++){
                 for(int j=0; j<totalCols; j++){
-                    object[i-1][j] = sheet.getRow(i+1).getCell(j).getStringCellValue();
+                    object[i-1][j] = sheet.getRow(i).getCell(j).getStringCellValue();
                 }
             }
         } catch (FileNotFoundException e) {

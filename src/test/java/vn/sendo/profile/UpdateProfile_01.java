@@ -2,22 +2,11 @@ package vn.sendo.profile;
 
 import commons.AbstractTest;
 import commons.GlobalConstants;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageObjects.LoginPageObject;
-import pageObjects.ProfilePageObject;
 import utils.PropertiesUtils;
 
 public class UpdateProfile_01 extends AbstractTest {
-
-    WebDriver driver;
-
-    LoginPageObject loginPage;
-    ProfilePageObject profilePage;
 
     String email = "trangdoan@mailinator.com";
     String password ="12345678";
@@ -37,24 +26,10 @@ public class UpdateProfile_01 extends AbstractTest {
     String month = "Tháng 6";
     String year = "1997";
 
-    @Parameters("browser")
-    @BeforeClass
-    public void beforeMethod(String browserValue){
-        driver = getBrowserDriver(browserValue);
-
-        maximizeWindow(driver);
-
-        openUrl(driver, GlobalConstants.url);
-
-        loginPage = new LoginPageObject(driver);
-        profilePage = new ProfilePageObject(driver);
-    }
-
     @Test
     public void TC_Login_01_SuccessLogin(){
-        loginPage.closeRedPopup();
 
-        loginPage.closeWhitePopup();
+        logger.info("---TC_Login_01_SuccessLogin---");
 
         loginPage.clickLoginButtonOnTopBar();
 
@@ -73,6 +48,7 @@ public class UpdateProfile_01 extends AbstractTest {
 
     @Test (dependsOnMethods = "TC_Login_01_SuccessLogin")
     public void TC_Profile_01_EmptyFirstName(){
+        logger.info("---TC_Profile_01_EmptyFirstName---");
         profilePage.clickUserMenu();
         profilePage.clickAccountInfoFromMenu();
         profilePage.clickAvatar();
@@ -99,6 +75,7 @@ public class UpdateProfile_01 extends AbstractTest {
 
     @Test (dependsOnMethods = "TC_Login_01_SuccessLogin")
     public void TC_Profile_02_EmptyLastName(){
+        logger.info("---TC_Profile_02_EmptyLastName---");
         profilePage.clickUserMenu();
         profilePage.clickAccountInfoFromMenu();
         profilePage.clickAvatar();
@@ -125,6 +102,7 @@ public class UpdateProfile_01 extends AbstractTest {
 
     @Test (dependsOnMethods = "TC_Login_01_SuccessLogin")
     public void TC_Profile_03_UpdateSuccessProfile(){
+        logger.info("---TC_Profile_03_UpdateSuccessProfile---");
         profilePage.clickUserMenu();
         profilePage.clickAccountInfoFromMenu();
         profilePage.clickAvatar();
@@ -147,10 +125,5 @@ public class UpdateProfile_01 extends AbstractTest {
         System.out.println(actualResult);
         String expectedResult = PropertiesUtils.readPropertiesValue("UPDATE_SUCCESS_PROFILE_MESSAGE");
         Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
-    }
-
-    @AfterClass
-    public void afterMethod(){
-        closeBrowser(driver);
     }
 }

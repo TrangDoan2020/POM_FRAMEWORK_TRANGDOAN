@@ -1,18 +1,13 @@
 package vn.sendo.login;
 
 import commons.AbstractTest;
-import commons.GlobalConstants;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pageObjects.LoginPageObject;
 import utils.PropertiesUtils;
 
 public class Login_01_SendoLogin extends AbstractTest {
-    WebDriver driver;
-
-    LoginPageObject loginPage;
 
     String email01 = "trangdoan@mailinator.com";
     String password01 ="";
@@ -34,24 +29,10 @@ public class Login_01_SendoLogin extends AbstractTest {
 
     Wait<WebDriver> wait;
 
-    @Parameters("browser")
-    @BeforeClass
-    public void beforeMethod(String browserValue){
-        driver = getBrowserDriver(browserValue);
-
-        maximizeWindow(driver);
-
-        openUrl(driver, GlobalConstants.url);
-
-        loginPage = new LoginPageObject(driver);
-
-        loginPage.closeRedPopup();
-
-        loginPage.closeWhitePopup();
-    }
-
     @Test
     public void TC_Login_01_EnterNoPassword(){
+
+        logger.info("---TC_Login_01_EnterNoPassword---");
 
         loginPage.clickLoginButtonOnTopBar();
 
@@ -75,6 +56,8 @@ public class Login_01_SendoLogin extends AbstractTest {
     @Test
     public void TC_Login_02_EnterPasswordLessThan6Chars(){
 
+        logger.info("---TC_Login_02_EnterPasswordLessThan6Chars---");
+
         loginPage.clickLoginButtonOnTopBar();
 
         loginPage.clickHaveSendoIDLinkOnLoginPopup();
@@ -96,6 +79,8 @@ public class Login_01_SendoLogin extends AbstractTest {
 
     @Test
     public void TC_Login_03_EnterWrongPassword() {
+
+        logger.info("---TC_Login_03_EnterWrongPassword---");
 
         loginPage.clickLoginButtonOnTopBar();
 
@@ -119,6 +104,8 @@ public class Login_01_SendoLogin extends AbstractTest {
     @Test
     public void TC_Login_04_LoginSuccessWithEmail() {
 
+        logger.info("---TC_Login_04_LoginSuccessWithEmail---");
+
         loginPage.clickLoginButtonOnTopBar();
 
         loginPage.clickHaveSendoIDLinkOnLoginPopup();
@@ -141,6 +128,8 @@ public class Login_01_SendoLogin extends AbstractTest {
     @Test
     public void TC_Login_05_LoginSuccessWithPhoneNumber() {
 
+        logger.info("---TC_Login_05_LoginSuccessWithPhoneNumber---");
+
         loginPage.clickLoginButtonOnTopBar();
 
         loginPage.clickHaveSendoIDLinkOnLoginPopup();
@@ -158,10 +147,5 @@ public class Login_01_SendoLogin extends AbstractTest {
         loginPage.clickUserMenuOnTopBar();
 
         loginPage.clickQuitOnMenu();
-    }
-
-    @AfterClass
-    public void afterMethod(){
-        closeBrowser(driver);
     }
 }

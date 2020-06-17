@@ -1,22 +1,11 @@
-package vn.sendo.profile;
+package vn.sendo.shippingAddress;
 
 import commons.AbstractTest;
-import commons.GlobalConstants;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageObjects.LoginPageObject;
-import pageObjects.ShippingAddressObject;
 import utils.PropertiesUtils;
 
 public class UpdateShippingAddress_01 extends AbstractTest {
-    WebDriver driver;
-
-    LoginPageObject loginPage;
-    ShippingAddressObject shippingAddressPage;
 
     String email = "trangdoan@mailinator.com";
     String password ="12345678";
@@ -29,24 +18,10 @@ public class UpdateShippingAddress_01 extends AbstractTest {
     String ward = "Thị trấn Tây Đằng";
     String phoneNumber = "0908070605";
 
-    @Parameters("browser")
-    @BeforeClass
-    public void beforeMethod(String browserValue){
-        driver = getBrowserDriver(browserValue);
-
-        maximizeWindow(driver);
-
-        openUrl(driver, GlobalConstants.url);
-
-        loginPage = new LoginPageObject(driver);
-        shippingAddressPage = new ShippingAddressObject(driver);
-    }
-
     @Test
     public void TC_Login_01_SuccessLogin(){
-        loginPage.closeRedPopup();
 
-        loginPage.closeWhitePopup();
+        logger.info("---TC_Login_01_SuccessLogin---");
 
         loginPage.clickLoginButtonOnTopBar();
 
@@ -65,6 +40,7 @@ public class UpdateShippingAddress_01 extends AbstractTest {
 
     @Test (dependsOnMethods = "TC_Login_01_SuccessLogin")
     public void TC_Profile_UpdateShippingAddress_01_UpdateSuccessShippingAddress() {
+        logger.info("---TC_Profile_UpdateShippingAddress_01_UpdateSuccessShippingAddress---");
         shippingAddressPage.clickUserMenu();
         shippingAddressPage.clickAccountInfoFromMenu();
         shippingAddressPage.clickShippingAddressLink();
@@ -86,14 +62,5 @@ public class UpdateShippingAddress_01 extends AbstractTest {
         String expectedResult = PropertiesUtils.readPropertiesValue("UPDATE_SUCCESS_SHIPPING_ADDRESS_MESSAGE");
         Assert.assertEquals(actualResult, expectedResult,"Error message is not matched!");
 
-    }
-    //@Test
-    public void TC_Profile_UpdateShippingAddress_02_EmptyLastName(){
-
-    }
-
-    @AfterClass
-    public void afterMethod(){
-        closeBrowser(driver);
     }
 }

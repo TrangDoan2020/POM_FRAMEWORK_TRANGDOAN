@@ -1,19 +1,14 @@
 package vn.sendo.login;
 
 import commons.AbstractTest;
-import commons.GlobalConstants;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pageObjects.LoginPageObject;
 import utils.ExcelUtils;
 import utils.PropertiesUtils;
 
 public class Login_02_SendoLogin extends AbstractTest {
-    WebDriver driver;
-
-    LoginPageObject loginPage;
 
 //    String email01 = "trangdoan@mailinator.com";
 //    String password01 ="";
@@ -35,22 +30,6 @@ public class Login_02_SendoLogin extends AbstractTest {
 
     Wait<WebDriver> wait;
 
-    @Parameters("browser")
-    @BeforeClass
-    public void beforeMethod(String browserValue){
-        driver = getBrowserDriver(browserValue);
-
-        maximizeWindow(driver);
-
-        openUrl(driver, GlobalConstants.url);
-
-        loginPage = new LoginPageObject(driver);
-
-        loginPage.closeRedPopup();
-
-        loginPage.closeWhitePopup();
-    }
-
     @DataProvider
     public Object[][] invalidAccountData(){
         return ExcelUtils.readExcelValues("TC_InvalidAccounts");
@@ -58,6 +37,7 @@ public class Login_02_SendoLogin extends AbstractTest {
 
     @Test(dataProvider = "invalidAccountData")
     public void TC_InvalidAccounts(String email, String password, String message) {
+        logger.info("---TC_InvalidAccounts---");
         loginPage.clickLoginButtonOnTopBar();
 
         loginPage.clickHaveSendoIDLinkOnLoginPopup();
@@ -80,6 +60,7 @@ public class Login_02_SendoLogin extends AbstractTest {
 
     @Test
     public void TC_Login_04_LoginSuccessWithEmail() {
+        logger.info("---TC_Login_04_LoginSuccessWithEmail---");
 
         loginPage.clickLoginButtonOnTopBar();
 
@@ -102,6 +83,7 @@ public class Login_02_SendoLogin extends AbstractTest {
 
    @Test
     public void TC_Login_05_LoginSuccessWithPhoneNumber() {
+       logger.info("---TC_Login_05_LoginSuccessWithPhoneNumber---");
 
         loginPage.clickLoginButtonOnTopBar();
 
@@ -120,10 +102,5 @@ public class Login_02_SendoLogin extends AbstractTest {
         loginPage.clickUserMenuOnTopBar();
 
         loginPage.clickQuitOnMenu();
-    }
-
-    @AfterClass
-    public void afterMethod(){
-        closeBrowser(driver);
     }
 }

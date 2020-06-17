@@ -2,12 +2,17 @@
 
 <suite name = "Selenium Webdriver API">
 
+    <listeners>
+        <listener class-name="extent.ExtentListener" />
+    </listeners>
+
     <test name ="Run Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
+            <class name = "vn.sendo.login.Login_01_SendoLogin"/>
 <!--            <class name = "vn.sendo.login.Login_02_SendoLogin"/>-->
 <!--            <class name = "vn.sendo.profile.UpdateProfile_01"/>-->
-                <class name = "vn.sendo.profile.UpdateShippingAddress_01"/>
+<!--            <class name = "vn.sendo.shippingAddress.UpdateShippingAddress_01"/>-->
         </classes>
     </test>
 
